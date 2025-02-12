@@ -6,3 +6,4 @@ base2 = float(input("Base, second value: "))
 area = ((base1 + base2) / 2) * height
 
 print("Area:", area)
+ad
