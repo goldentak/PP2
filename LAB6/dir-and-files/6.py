@@ -2,7 +2,7 @@ import os
 os.makedirs('txts', exist_ok=True)
 for i in range(65, 91):
     s = chr(i)
-    file_path = f"txts/{s}.txt"
+    file_path = f"LAB6/txts/{s}.txt"
 
     try:
         with open(file_path, 'x') as f:
