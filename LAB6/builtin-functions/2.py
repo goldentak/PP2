@@ -2,9 +2,9 @@ s = "Hello World"
 a = 0
 b = 0
 for i in s:
-    if i.isupper():
+    if 65 <= ord(i) <= 90:
         a += 1
-    elif i.islower and i != " ":
+    elif 97 <= ord(i) <= 122:
         b += 1
 
 print(a, b)

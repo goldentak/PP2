@@ -1,10 +1,9 @@
 def is_palindrome(s):
     s = s.replace(" ", "").lower()
-    return s == s[::-1]
+    rev = ""
+    for i in range(len(s) - 1, -1, -1):
+        rev += s[i]
+    return s == rev
 
 s = "level"
-if is_palindrome(s):
-    print(f'"{s}" is a palindrome.')
-else:
-    print(f'"{s}" is not a palindrome.')
-
+print(f'"{s}" is a palindrome.' if is_palindrome(s) else f'"{s}" is not a palindrome.')
