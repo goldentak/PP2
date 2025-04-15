@@ -115,8 +115,12 @@ class Game:
         self.score = 0
         self.level = 1
         self.speed = FPS
+        self.is_paused = False  # Flag for pause state
 
     def update(self):
+        if self.is_paused:
+            return  # Skip update if the game is paused
+
         self.snake.move()
         if self.snake.check_collision():
             self.game_over()
@@ -131,6 +135,7 @@ class Game:
             if self.score % 4 == 0:
                 self.level += 1
                 self.speed += 2
+                self.change_level()
 
     def draw_grid(self):
         for x in range(0, WIDTH, CELL_SIZE):
@@ -172,6 +177,13 @@ class Game:
         print(f"Game over! Score: {self.score}")
         pg.quit()
         sys.exit()
+
+    def pause(self):
+        self.is_paused = not self.is_paused
+        if self.is_paused:
+            print("Game Paused")
+        else:
+            print("Game Resumed")
 
 #Name entering before game starts
 player_name = ""
@@ -225,9 +237,13 @@ def main():
                     game.snake.change_direction(-1, 0)
                 elif event.key == pg.K_RIGHT:
                     game.snake.change_direction(1, 0)
-
-        # Make the changes to the database persistent
-        conn.commit()
+                elif event.key == pg.K_p:  # Press "P" to pause/resume the game
+                    game.pause()
+        # Make the changes to the database persistent if game is paused
+        if game.is_paused:
+            cur.execute("UPDATE score_table1 SET score = %s, level = %s WHERE name = %s", 
+                        (game.score, game.level, player_name))
+            conn.commit()
 
         game.update()
         game.draw()
